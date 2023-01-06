@@ -1,3 +1,5 @@
+const { useResolvedPath } = require("react-router");
+
 function Login(){
   const [show, setShow]     = React.useState(true);
   const [status, setStatus] = React.useState('');    
@@ -37,7 +39,7 @@ function LoginForm(props){
             const data = JSON.parse(text);
             props.setStatus('');
             props.setShow(false);
-            console.log('JSON:', data);
+            console.log('JSON:', data.name);
         } catch(err) {
             props.setStatus(text)
             console.log('err:', text);
@@ -45,7 +47,8 @@ function LoginForm(props){
     });
   }
 
-  return (<>
+  return (
+  <>
 
     Email<br/>
     <input type="input" 
