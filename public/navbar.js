@@ -1,4 +1,5 @@
-function NavBar() {
+function NavBar(props) {
+  props.user;
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <Link className="navbar-brand" to="/">
@@ -48,10 +49,11 @@ function NavBar() {
             </Link>
           </li>
         </ul>
-        <ul className="ml-auto">
+        {/* <ul className="ml-auto">
           <span className="nav-item">Welcome User!</span>
-        </ul>
+        </ul> */}
       </div>
+      {props.user && props.user.name}
     </nav>
   );
 }

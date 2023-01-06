@@ -1,6 +1,5 @@
-const { useResolvedPath } = require("react-router");
 
-function Login(){
+function Login(props){
   const [show, setShow]     = React.useState(true);
   const [status, setStatus] = React.useState('');    
 
@@ -10,7 +9,7 @@ function Login(){
       header="Login"
       status={status}
       body={show ? 
-        <LoginForm setShow={setShow} setStatus={setStatus}/> :
+        <LoginForm setUser={props.setUser} setShow={setShow} setStatus={setStatus}/> :
         <LoginMsg setShow={setShow} setStatus={setStatus}/>}
     />
   ) 
@@ -39,6 +38,7 @@ function LoginForm(props){
             const data = JSON.parse(text);
             props.setStatus('');
             props.setShow(false);
+            props.setUser(data);
             console.log('JSON:', data.name);
         } catch(err) {
             props.setStatus(text)
