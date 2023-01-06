@@ -1,4 +1,8 @@
 function NavBar(props) {
+  const onLogOut = (()=> {
+    props.setUser({});
+    alert("You are now logged out");
+  })
   props.user;
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -25,7 +29,7 @@ function NavBar(props) {
           </li>
           <li className="nav-item">
             <Link className="nav-link" to="/login">
-              Login
+              Log In
             </Link>
           </li>
           <li className="nav-item">
@@ -48,10 +52,10 @@ function NavBar(props) {
               AllData
             </Link>
           </li>
+          <li className="nav-item">
+            <Link className="nav-link" onClick={onLogOut}>Log Out</Link>
+          </li>  
         </ul>
-        {/* <ul className="ml-auto">
-          <span className="nav-item">Welcome User!</span>
-        </ul> */}
       </div>
       {props.user && props.user.name}
     </nav>
