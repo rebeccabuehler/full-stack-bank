@@ -1,4 +1,4 @@
-function Balance(props){
+function Balance(){
   const [show, setShow]     = React.useState(true);
   const [status, setStatus] = React.useState('');  
 
@@ -8,7 +8,7 @@ function Balance(props){
       header="Balance"
       status={status}
       body={show ?
-        <BalanceForm user={props.user} setShow={setShow} setStatus={setStatus}/> :
+        <BalanceForm setShow={setShow} setStatus={setStatus}/> :
         <BalanceMsg setShow={setShow}/>}
     />
   )
@@ -30,18 +30,18 @@ function BalanceMsg(props){
 }
 
 function BalanceForm(props){
-  // const [email, setEmail]   = React.useState('');
+  const [email, setEmail]   = React.useState('');
   const [balance, setBalance] = React.useState('');  
 
   function handle(){
-    fetch(`/account/findOne/${props.user.email}`)
+    fetch(`/account/findOne/${email}`)
     .then(response => response.text())
     .then(text => {
         try {
             const data = JSON.parse(text);
-            props.setStatus(`$ ${data.balance}`);
+            props.setStatus(text);
             props.setShow(false);
-            setBalance(data.balance);
+            setBalance(user.balance);
             console.log('JSON:', data);
         } catch(err) {
             props.setStatus(text)
@@ -52,15 +52,13 @@ function BalanceForm(props){
 
   return (<>
 
-    {/* Email<br/>
+    Email<br/>
     <input type="input" 
       className="form-control" 
       placeholder="Enter email" 
       value={email} 
-      onChange={e => setEmail(e.currentTarget.value)}/><br/> */}
-      User
-      <br />
-      <p>{props.user.name}</p>
+      onChange={e => setEmail(e.currentTarget.value)}/><br/>
+
     <button type="submit" 
       className="btn btn-light" 
       onClick={handle}>

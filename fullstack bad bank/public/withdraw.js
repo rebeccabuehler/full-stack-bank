@@ -1,4 +1,4 @@
-function Withdraw(props){
+function Withdraw(){
   const [show, setShow]     = React.useState(true);
   const [status, setStatus] = React.useState('');  
 
@@ -8,7 +8,7 @@ function Withdraw(props){
       header="Withdraw"
       status={status}
       body={show ? 
-        <WithdrawForm user={props.user} setShow={setShow} setStatus={setStatus}/> :
+        <WithdrawForm setShow={setShow} setStatus={setStatus}/> :
         <WithdrawMsg setShow={setShow} setStatus={setStatus}/>}
     />
   )
@@ -29,11 +29,11 @@ function WithdrawMsg(props){
 }
 
 function WithdrawForm(props){
-  //const [email, setEmail]   = React.useState('');
+  const [email, setEmail]   = React.useState('');
   const [amount, setAmount] = React.useState('');
 
   function handle(){
-    fetch(`/account/update/${props.user.email}/-${amount}`)
+    fetch(`/account/update/${email}/-${amount}`)
     .then(response => response.text())
     .then(text => {
         try {
@@ -50,15 +50,13 @@ function WithdrawForm(props){
 
 
   return(<>
-{/* 
+
     Email<br/>
     <input type="input" 
       className="form-control" 
       placeholder="Enter email" 
       value={email} 
-      onChange={e => setEmail(e.currentTarget.value)}/><br/> */}
-    User<br/>
-    <p>{props.user.name}</p>
+      onChange={e => setEmail(e.currentTarget.value)}/><br/>
 
     Amount<br/>
     <input type="number" 

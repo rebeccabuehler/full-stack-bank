@@ -22,15 +22,14 @@ Originally the project was a bad bank app where it had a simple front end where 
 * NodeJs
 * Bootstrap
 * MongoDB
-* Studio 3T
+* Robo 3T
 * Cors
 * Docker
 
 # Features: 
 * Adding Firebase Google
 * Adding Users and Bank Tellers
-* Account types: checking, savings
-* Assigning random account numbers
+* Assistance buttons
 
 License: MIT
 MIT License
