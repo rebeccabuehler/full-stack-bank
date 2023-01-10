@@ -17,6 +17,7 @@ function Login(props){
   const [status, setStatus] = React.useState('');    
 
   return (
+    //context card for login
     <Card
       bgcolor="secondary"
       header="Login"
@@ -27,7 +28,7 @@ function Login(props){
     />
   ) 
 }
-
+//once loggined in should receive a success message
 function LoginMsg(props){
   return(<>
     <h5>Success</h5>
@@ -38,12 +39,13 @@ function LoginMsg(props){
     </button>
   </>);
 }
-
+//login process
 function LoginForm(props){
   const [email, setEmail]       = React.useState('');
   const [password, setPassword] = React.useState('');
 
   function handle(){
+    //login without authentication
     /*fetch(`/account/login/${email}/${password}`)
     .then(response => response.text())
     .then(text => {
@@ -58,6 +60,7 @@ function LoginForm(props){
             console.log('err:', text);
         }
     });*/
+    //login with authentication through firebase
     const auth = firebase.auth();
     const promise = auth.signInWithEmailAndPassword(
       email,
@@ -87,12 +90,12 @@ function LoginForm(props){
     });
     promise.catch((e) => console.log(e.message));
   }
-
+//login through google
   function handleGoogle() {
     var provider = new firebase.auth.GoogleAuthProvider();
     firebase
       .auth()
-      .signInWithPopup(provider)
+      .signInWithPopup(provider) //popup window
       .then(function (result) {
         console.log(result);
         const gmail = encodeURI(result.additionalUserInfo.profile.name);
