@@ -1,3 +1,16 @@
+//information for firebase app
+const firebaseConfig = {
+  apiKey: "AIzaSyC4cD92PUoOH-B_TsfmT-NNF1dIiATuf88",
+  authDomain: "full-stack-bank-30cb8.firebaseapp.com",
+  projectId: "full-stack-bank-30cb8",
+  storageBucket: "full-stack-bank-30cb8.appspot.com",
+  messagingSenderId: "946875310949",
+  appId: "1:946875310949:web:8ecd72cefc0bb5a005778c",
+  measurementId: "G-KETVZ7EV4D"
+};
+
+// // Initialize Firebase
+firebase.initializeApp(firebaseConfig);
 
 function Login(props){
   const [show, setShow]     = React.useState(true);
@@ -31,7 +44,7 @@ function LoginForm(props){
   const [password, setPassword] = React.useState('');
 
   function handle(){
-    fetch(`/account/login/${email}/${password}`)
+    /*fetch(`/account/login/${email}/${password}`)
     .then(response => response.text())
     .then(text => {
         try {
@@ -39,16 +52,85 @@ function LoginForm(props){
             props.setStatus('');
             props.setShow(false);
             props.setUser(data);
-            console.log('JSON:', data.name);
+            console.log('JSON:', data);
+        } catch(err) {
+            props.setStatus(text)
+            console.log('err:', text);
+        }
+    });*/
+    const auth = firebase.auth();
+    const promise = auth.signInWithEmailAndPassword(
+      email,
+      password
+    );
+    firebase.auth().onAuthStateChanged((firebaseUser) => {
+      if (firebaseUser) {
+        console.log(firebaseUser);
+        fetch(`/account/login/${email}/${password}`)
+    .then(response => response.text())
+    .then(text => {
+        try {
+            const data = JSON.parse(text);
+            props.setStatus('');
+            props.setShow(false);
+            props.setUser(data);
+            console.log('JSON:', data);
         } catch(err) {
             props.setStatus(text)
             console.log('err:', text);
         }
     });
+       //success
+      } else {
+       //error codes
+      }
+    });
+    promise.catch((e) => console.log(e.message));
   }
 
-  return (
-  <>
+  function handleGoogle() {
+    var provider = new firebase.auth.GoogleAuthProvider();
+    firebase
+      .auth()
+      .signInWithPopup(provider)
+      .then(function (result) {
+        console.log(result);
+        const gmail = encodeURI(result.additionalUserInfo.profile.name);
+        console.log(gmail);
+        fetch(`/account/login/${gmail}/${gmail}`)
+        .then(response => response.text())
+        .then(async (text) => {
+            try {
+                const data = JSON.parse(text);
+                props.setStatus('');
+                props.setShow(false);
+                props.setUser(data);
+                console.log('JSON:', data);
+            } catch(err) {
+              console.log(err);
+                props.setStatus(text)
+                console.log('err:', text);
+                
+                const url = `/account/create/${gmail}/${gmail}/${gmail}`;
+                await fetch(url);
+                const res = await fetch(`/account/login/${gmail}/${gmail}`)
+                const text = await res.text();
+                const data = JSON.parse(text);
+                      props.setStatus('');
+                      props.setShow(false);
+                      props.setUser(data);
+            }
+        })
+       
+      })
+      .catch(function (error) {
+        console.log(error.code);
+        console.log(error.message);
+      });
+  }
+  
+
+  return (<>
 
     Email<br/>
     <input type="input" 
@@ -65,6 +147,8 @@ function LoginForm(props){
       onChange={e => setPassword(e.currentTarget.value)}/><br/>
 
     <button type="submit" className="btn btn-light" onClick={handle}>Login</button>
-   
+    <br/>
+    <br/>
+    <button type="submit" className="btn btn-light" onClick={handleGoogle}>Google Login</button>
   </>);
 }

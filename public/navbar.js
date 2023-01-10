@@ -2,6 +2,21 @@ function NavBar(props) {
   const onLogOut = (()=> {
     props.setUser({});
     alert("You are now logged out");
+    firebase.auth().signOut();
+      fetch(`/account/logOut`)
+      .then(response => response.text())
+      .then(text => {
+          try {
+              const data = JSON.parse(text);
+              props.setStatus('');
+              props.setShow(false);
+              //props.setUser(data);
+              console.log('JSON:', data);
+          } catch(err) {
+              props.setStatus(text)
+              console.log('err:', text);
+          }
+      });
   })
   props.user;
   return (
