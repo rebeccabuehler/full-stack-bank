@@ -22,7 +22,7 @@ function NavBar(props) {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <Link className="navbar-brand" to="/">
-        Trust Bank
+        MIT Bank
       </Link>
       <button
         className="navbar-toggler"
